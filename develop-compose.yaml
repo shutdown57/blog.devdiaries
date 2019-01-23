@@ -14,8 +14,8 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: root
 
-  app:
-    image: 
+  # app:
+  #   image: 
 
 volumes:
   dbdata:
