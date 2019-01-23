@@ -31,3 +31,5 @@ dist
 TODOs.org
 .nvmrc
 
+# docker-compose
+docker-compose.yaml
