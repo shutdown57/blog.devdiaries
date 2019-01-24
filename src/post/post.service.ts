@@ -25,6 +25,7 @@ export class PostService {
 
     addPost(post): Promise<any> {
         return new Promise(resolve => {
+            post.id = Number(post.id);
             this.posts.push(post);
             resolve(this.posts);
         });
