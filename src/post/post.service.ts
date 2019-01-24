@@ -7,14 +7,14 @@ export class PostService {
     posts = Posts;
 
     getPosts(): Promise<any> {
-        return new Promise(resolver => {
+        return new Promise(resolve => {
             resolve(this.posts);
         });
     }
 
     getPost(postID): Promise<any> {
         let id = Number(postID);
-        return new Promise(resolver => {
+        return new Promise(resolve => {
             const post = this.posts.find(post => post.id === id);
             if (!post) {
                 throw new HttpException('Post does not exists!', 404);
@@ -24,7 +24,7 @@ export class PostService {
     }
 
     addPost(post): Promise<any> {
-        return new Promise(resolver => {
+        return new Promise(resolve => {
             this.posts.push(post);
             resolve(this.posts);
         });
@@ -32,7 +32,7 @@ export class PostService {
 
     deletePost(postID): Promise<any> {
         let id = Number(postID);
-        return new Promise(resolver => {
+        return new Promise(resolve => {
             let index = this.posts.findIndex(post => post.id === id);
             if (index === -1) {
                 throw new HttpException('Post does not exists!', 404);
