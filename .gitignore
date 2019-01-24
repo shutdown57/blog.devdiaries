@@ -30,6 +30,7 @@ dist
 .editorconfig
 TODOs.org
 .nvmrc
+ormconfig.json
 
 # docker-compose
 docker-compose.yaml
