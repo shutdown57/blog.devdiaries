@@ -1,45 +1,40 @@
 import { Injectable, HttpException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { Posts } from '../mocks/post.mock';
+import { Post } from './post.entity';
 
 @Injectable()
 export class PostService {
-    posts = Posts;
 
-    getPosts(): Promise<any> {
-        return new Promise(resolve => {
-            resolve(this.posts);
-        });
-    }
+  constructor(
+    @InjectRepository()
+    private readonly postRepository: Repository<Post>,
+  ) {}
 
-    getPost(postID): Promise<any> {
-        let id = Number(postID);
-        return new Promise(resolve => {
-            const post = this.posts.find(post => post.id === id);
-            if (!post) {
-                throw new HttpException('Post does not exists!', 404);
-            }
-            resolve(post);
-        });
-    }
+  async getPosts(): Promise<Post[]> {
+    return await this.postRepository.find();
+  }
 
-    addPost(post): Promise<any> {
-        return new Promise(resolve => {
-            post.id = Number(post.id);
-            this.posts.push(post);
-            resolve(this.posts);
-        });
-    }
+  async getPost(postID): Promise<Post> {
+    let id = Number(postID);
+    return await this.postRepository.findOne({id: id});
+  }
 
-    deletePost(postID): Promise<any> {
-        let id = Number(postID);
-        return new Promise(resolve => {
-            let index = this.posts.findIndex(post => post.id === id);
-            if (index === -1) {
-                throw new HttpException('Post does not exists!', 404);
-            }
-            this.posts.splice(1, index);
-            resolve(this.posts);
-        });
-    }
+  async addPost(post): Promise<Post> {
+    let newPost = new Post();
+    newPost.title = post.title;
+    newPost.body = post.body;
+    newPost.user = post.user;
+    newPost.slug = post.slug;
+    await this.postRepository.save(newPost);
+    return await this.postRepository.find();
+  }
+
+  async deletePost(postID): Promise<Post> {
+    let id = Number(postID);
+    let post = await this.postRepository.findOne({id: id});
+    await this.postRepository.remove(post);
+    return await this.postRepository.find();
+  }
 }
