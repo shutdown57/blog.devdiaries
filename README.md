@@ -36,7 +36,7 @@ $ npm run test:cov
 ## Stay in touch
 
 - Author - [Majid Mohamadi](mailto:m.shutdown89@gmail.com)
-- Website - [https://nestjs.com](https://devdiaries.xyz)
+- Website - [https://devdiaries.xyz](https://devdiaries.xyz)
 
 ## License
 
