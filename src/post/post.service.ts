@@ -8,7 +8,7 @@ import { Post } from './post.entity';
 export class PostService {
 
   constructor(
-    @InjectRepository()
+    @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
   ) {}
 
@@ -21,7 +21,7 @@ export class PostService {
     return await this.postRepository.findOne({id: id});
   }
 
-  async addPost(post): Promise<Post> {
+  async addPost(post): Promise<Post[]> {
     let newPost = new Post();
     newPost.title = post.title;
     newPost.body = post.body;
@@ -31,7 +31,7 @@ export class PostService {
     return await this.postRepository.find();
   }
 
-  async deletePost(postID): Promise<Post> {
+  async deletePost(postID): Promise<Post[]> {
     let id = Number(postID);
     let post = await this.postRepository.findOne({id: id});
     await this.postRepository.remove(post);
