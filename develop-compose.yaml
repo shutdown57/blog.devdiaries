@@ -14,8 +14,13 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: root
 
-  # app:
-  #   image: 
+  app:
+    build: ./
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
 
 volumes:
   dbdata:
