@@ -4,11 +4,12 @@ import { HttpException } from '@nestjs/common';
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
 import { CreatePostDTO } from './dto/create-post.dto';
-import { Posts } from '../mocks/post.mock';
+import { Post } from './post.entity';
+// import { Posts } from '../mocks/post.mock';
 
 describe('Post Controller', () => {
-    let postController: PostController;
-    let posts = Posts;
+    let controller: PostController;
+    // let posts = Posts;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -16,19 +17,19 @@ describe('Post Controller', () => {
             providers: [PostService]
         }).compile();
 
-        postController = module.get<PostController>(PostController);
+        controller = module.get<PostController>(PostController);
     });
 
     describe('getPosts', () => {
         it('should return "5 posts with ID, title, body and author"', async () => {
-            expect(await postController.getPosts()).toBe(posts);
+          expect(await controller.getPosts()).toBe(Array);
         });
     });
 
     describe('getPost', () => {
         it('should return "fisrt post with ID 1"', async () => {
-            const post = posts.find(post => post.id === 1);
-            expect(await postController.getPost(1)).toBe(post);
+            // const post = posts.find(post => post.id === 1);
+            expect(await controller.getPost(1)).toBe(typeof Post);
         });
     });
 
@@ -40,15 +41,15 @@ describe('Post Controller', () => {
                 body: "Body of post 6",
                 author: "Majid Mohamadi"
             };
-            let allPosts = posts.push(newPost);
-            expect(await postController.addPost(newPost)).toBe(posts);
+            // let allPosts = posts.push(newPost);
+          expect(await controller.addPost(newPost)).toBe(typeof Object);
         });
     });
 
     describe('deletePost', () => {
         it('should return "deleted post', async () => {
             let postID = 5;
-            expect(await postController.deletePost(postID)).toBe(posts);
+            expect(await controller.deletePost(postID)).toBe(typeof Object);
         });
     });
 });
