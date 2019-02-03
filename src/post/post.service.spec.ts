@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService } from './post.service';
+import { Post } from './post.entity';
 
 describe('PostService', () => {
   let service: PostService;
@@ -13,6 +14,6 @@ describe('PostService', () => {
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(await service.getPosts()).toBe(typeof Array);
   });
 });
