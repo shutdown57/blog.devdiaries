@@ -8,7 +8,7 @@ import { User } from './user.entity';
 export class UserService {
 
   constructor(
-    @InjectRepository()
+    @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
 
@@ -33,7 +33,7 @@ export class UserService {
 
   async deleteUser(userID): Promise<User> {
     let id = Number(userID);
-    let user = await this.userRepository.findOne(id: id);
+    let user = await this.userRepository.findOne({id: id});
     await this.userRepository.remove(user);
     return user;
   }
