@@ -1,7 +1,10 @@
-import { Entity, OneToOne, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, OneToOne, Column,
+         PrimaryGeneratedColumn, OneToMany,
+         UpdateDateColumn, CreateDateColumn
+       } from 'typeorm';
 
 import { Post } from '../post/post.entity';
-import { Profile } from '../user/profile.entity';
+// import { Profile } from '../user/profile.entity';
 
 @Entity()
 export class User {
@@ -20,12 +23,15 @@ export class User {
   @Column({length: 32})
   password: string;
 
-  @OneToOne(type => Profile, profile => profile.user)
-  profile: Profile;
+  // @OneToOne(type => Profile, profile => profile.user)
+  // profile: Profile;
 
-  @Column({type: "datetime", default: Date})
+  @CreateDateColumn()
   created: Date;
 
-  @OneToMany(type => Post; post => post.user)
+  @UpdateDateColumn()
+  updated: Date;
+
+  @OneToMany(type => Post, post => post.user)
   posts: Post[];
 }
