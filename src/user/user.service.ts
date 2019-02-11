@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { UserDTO, UserRO } from './dto/user.dto';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,29 +13,39 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async getUsers(): Promise<User[]> {
-    return await this.userRepository.find();
+  async index(): Promise<UserRO[]> {
+    const users = await this.userRepository.find();
+    return users.map(user => user.toResponseObject(false));
   }
 
-  async getUser(userID): Promise<User> {
-    let id = Number(userID);
-    return await this.userRepository.findOne({id: id});
+  async show(userID: string): Promise<UserRO> {
+    const user = await this.userRepository.findOne({id: userID});
+    return user.toResponseObject();
   }
 
-  async addUser(user): Promise<User> {
-    let newUser = new User();
-    newUser.name = user.name;
-    newUser.family = user.family;
-    newUser.email = user.email;
-    newUser.password = user.password;
-    await this.userRepository.save(newUser);
-    return await this.userRepository.findOne({email: newUser.email});
+  async register(data: UserDTO): Promise<UserRO> {
+    const {username} = data;
+    let user = await this.userRepository.findOne({where: {username}});
+    if (user) {
+      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+    }
+    user =  await this.userRepository.create(data);
+    await this.userRepository.save(user);
+    return user.toResponseObject();
   }
 
-  async deleteUser(userID): Promise<User> {
-    let id = Number(userID);
-    let user = await this.userRepository.findOne({id: id});
+  async login(data: UserDTO) {
+    const {username, password} = data;
+    const user = await this.userRepository.findOne({where: {username}});
+    if (!user || !(await user.comparePassword(password))) {
+      throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+    }
+    return user.toResponseObject();
+  }
+
+  async delete(userID: string): Promise<UserRO> {
+    const user = await this.userRepository.findOne({where: {userID}});
     await this.userRepository.remove(user);
-    return user;
+    return user.toResponseObject();
   }
 }
