@@ -3,7 +3,7 @@ import { HttpException } from '@nestjs/common';
 
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
-import { CreatePostDTO } from './dto/create-post.dto';
+import { PostDTO } from './dto/post.dto';
 import { Post } from './post.entity';
 // import { Posts } from '../mocks/post.mock';
 
