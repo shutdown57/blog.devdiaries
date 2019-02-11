@@ -1,35 +1,43 @@
+import { ValidationPipe } from './../shared/validation.pip';
 import { Controller, Get,
          Param, Post,
-         Body, Delete } from '@nestjs/common';
+         Body, Delete, UsePipes, Put } from '@nestjs/common';
 
 import { PostService } from './post.service';
-import { CreatePostDTO } from './dto/create-post.dto';
+import { PostDTO } from './dto/post.dto';
 
-@Controller('post')
+@Controller('api/post')
 export class PostController {
-    constructor(private readonly postService: PostService) {}
+  constructor(private readonly postService: PostService) {}
 
-    @Get()
-    async getPosts() {
-        const posts = await this.postService.getPosts();
-        return posts;
-    }
+  @Get()
+  async index() {
+      const posts = await this.postService.index();
+      return posts;
+  }
 
-    @Get(':postID')
-    async getPost(@Param('postID') postID) {
-        const post = await this.postService.getPost(postID);
-        return post;
-    }
+  @Get(':postID')
+  async show(@Param('postID') postID) {
+      const post = await this.postService.show(postID);
+      return post;
+  }
 
-    @Post()
-    async addPost(@Body() createPostDTO: CreatePostDTO) {
-        const post = await this.postService.addPost(createPostDTO);
-        return post;
-    }
+  @Post()
+  @UsePipes(new ValidationPipe())
+  async create(@Body() data: PostDTO) {
+      const post = await this.postService.create(data);
+      return post;
+  }
 
-    @Delete(':postID')
-    async deletePost(@Param('postID') postID) {
-        const posts = await this.postService.deletePost(postID);
-        return posts;
-    }
+  @Put(':id')
+  @UsePipes(new ValidationPipe())
+  async update(@Param('id') id: string, @Body() data: Partial<PostDTO>) {
+    return await this.postService.update(id, data);
+  }
+
+  @Delete(':postID')
+  async delete(@Param('postID') postID) {
+      const posts = await this.postService.delete(postID);
+      return posts;
+  }
 }
