@@ -1,15 +1,15 @@
-import { Entity, Column, ManyToOne,
-         PrimaryGeneratedColumn,
-         CreateDateColumn,
-         UpdateDateColumn
-       } from 'typeorm';
+import {
+  Entity, Column, ManyToOne,
+  PrimaryGeneratedColumn,
+  CreateDateColumn, UpdateDateColumn,
+} from 'typeorm';
 
 import { User } from '../user/user.entity';
 
-@Entity()
+@Entity('post')
 export class Post {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({length: 255})
   slug: string;
