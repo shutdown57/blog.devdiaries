@@ -10,9 +10,9 @@ export class UserDTO {
 }
 
 export class UserRO {
-  id: string;
-  username: string;
-  created: Date;
-  updated: Date;
-  token?: string;
+  readonly id: string;
+  readonly username: string;
+  readonly created: Date;
+  readonly updated: Date;
+  readonly token?: string;
 }
