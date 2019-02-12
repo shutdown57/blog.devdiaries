@@ -1,15 +1,25 @@
+import { Controller, Post, Get, Body, Param, UsePipes, UseGuards } from '@nestjs/common';
+
+import { AuthGuard } from 'src/shared/auth.guard';
+import { UserDC } from './user.decorator';
 import { ValidationPipe } from './../shared/validation.pip';
 import { UserDTO } from './dto/user.dto';
 import { UserService } from './user.service';
-import { Controller, Post, Get, Body, Param, UsePipes } from '@nestjs/common';
 
 @Controller()
 export class UserController {
 
   constructor(private userService: UserService) {}
-  @Get('api/user')
+  @Get('api/user/:id')
+  @UseGuards(new AuthGuard())
   async show(@Param() id: string) {
     return await this.userService.show(id);
+  }
+
+  @Get('api/user')
+  @UseGuards(new AuthGuard())
+  async index(@UserDC() user) {
+    return await this.userService.index();
   }
 
   @Post('login')
