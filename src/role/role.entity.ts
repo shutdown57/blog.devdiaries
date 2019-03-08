@@ -11,7 +11,7 @@ export class Role {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({length: 8})
+  @Column({ length: 8 })
   name: string;
 
   @Column()
@@ -25,4 +25,11 @@ export class Role {
 
   @OneToMany(type => User, user => user.role)
   users: User[];
+
+  public isAdmin(): boolean {
+    if (this.name === 'admin' && this.code === 64) {
+      return true;
+    }
+    return false;
+  }
 }
