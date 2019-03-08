@@ -17,18 +17,10 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @Column({length: 30})
-  // name: string;
-
-  // @Column({length: 50})
-  // family: string;
-
-  // @Column({length: 120, unique: true})
-  // email: string;
-  @Column({length: 16})
+  @Column({ length: 16 })
   username: string;
 
-  @Column({length: 32})
+  @Column({ length: 32 })
   password: string;
 
   @CreateDateColumn()
@@ -40,7 +32,7 @@ export class User {
   @OneToMany(type => Post, post => post.user)
   posts: Post[];
 
-  @OneToOne(type => Profile, profile => profile.user)
+  @OneToOne(type => Profile, profile => profile.user, { cascade: true })
   profile: Profile;
 
   @ManyToOne(type => Role, role => role.name)
@@ -52,8 +44,8 @@ export class User {
   }
 
   toResponseObject(showToken: boolean = true): UserRO {
-    const {id, created, username, updated, token} = this;
-    const responseObject: UserRO =  {id, username, created, updated};
+    const { id, created, username, updated, token } = this;
+    const responseObject: UserRO = { id, username, created, updated };
     if (showToken) {
       responseObject.token = token;
     }
@@ -65,7 +57,11 @@ export class User {
   }
 
   private get token(): string {
-    const {id, username} = this;
-    return jwt.sign({id, username}, process.env.SECRET, {expiresIn: '7d'});
+    const { id, username } = this;
+    return jwt.sign({ id, username }, process.env.SECRET, { expiresIn: '7d' });
+  }
+
+  async getRole(): Promise<string> {
+    return '';
   }
 }
