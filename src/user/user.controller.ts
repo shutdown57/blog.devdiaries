@@ -9,7 +9,7 @@ import { UserService } from './user.service';
 @Controller()
 export class UserController {
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
   @Get('api/user/:id')
   @UseGuards(new AuthGuard())
   async show(@Param() id: string) {
