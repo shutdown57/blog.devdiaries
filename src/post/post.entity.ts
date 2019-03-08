@@ -11,13 +11,13 @@ export class Post {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({length: 255})
+  @Column({ length: 255 })
   slug: string;
 
-  @Column({length: 255})
+  @Column({ length: 255 })
   title: string;
 
-  @Column({type: 'text'})
+  @Column({ type: 'text' })
   body: string;
 
   @CreateDateColumn()
