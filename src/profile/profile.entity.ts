@@ -11,13 +11,13 @@ export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({length: 30})
+  @Column({ length: 30 })
   name: string;
 
-  @Column({length: 50})
+  @Column({ length: 50 })
   family: string;
 
-  @Column({length: 120, unique: true})
+  @Column({ length: 120, unique: true })
   email: string;
 
   @CreateDateColumn()
