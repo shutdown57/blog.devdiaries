@@ -1,25 +1,28 @@
 import { IsString } from 'class-validator';
 
+import { UserRO, UserDTO } from 'src/user/dto/user.dto';
+
 export class PostDTO {
 
   @IsString()
-  readonly id: string;
+  id: string;
 
   @IsString()
-  readonly title: string;
+  title: string;
 
   @IsString()
-  readonly body: string;
+  body: string;
 
-  @IsString()
-  readonly author: string;
+  // @IsString()
+  // user: User;
 }
 
 export class PostRO {
-  id: string;
+  id?: string;
+  slug: string;
   title: string;
   body: string;
-  author?: string;
+  user?: UserRO;
   created: Date;
   updated: Date;
 }
